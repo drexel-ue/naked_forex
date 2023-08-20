@@ -1,0 +1,49 @@
+name: naked_forex
+
+packages:
+  - client
+
+ide:
+  intellij:
+    enabled: true
+    moduleNamePrefix: ''
+
+command:
+  bootstrap:
+    usePubspecOverrides: true
+
+scripts:
+  get:
+    name: Pub get
+    run: melos exec -- flutter pub get
+
+  clean:
+    name: Flutter clean
+    run: melos exec -- flutter clean
+
+  format:
+    name: Flutter format
+    run: melos exec -- dart format MELOS_PACKAGE_PATH --line-length=120
+
+  test:
+    name: Flutter test all
+    run: melos run test:each --no-select
+
+  test:each:
+    name: Flutter test each
+    run: melos exec --fail-fast -- flutter test --no-pub
+    select-package:
+      dir-exists:
+        - test
+
+  build:
+    name: Build runner run
+    run: melos exec -- flutter pub run build_runner build --delete-conflicting-outputs
+
+  watch:
+    name: Build runner watch
+    run: melos exec -- flutter pub run build_runner watch --delete-conflicting-outputs
+
+  import:sort:
+    name: Sort imports
+    run: melos exec -- flutter pub run import_sorter:main -e
